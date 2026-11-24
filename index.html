@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Iskierka w Krainie Ortografii – Gra dla Klasy 2</title>
-  <meta name="description" content="Magiczna edukacyjna gra w atrakcyjny sposób ucząca ortografii języka polskiego dla uczniów II klasy szkoły podstawowej.">
+  <title>Iskierka – Ortografia i Tabliczka Mnożenia do 30 (Klasa 2)</title>
+  <meta name="description" content="Magiczna edukacyjna gra dla klasy 2: zasady ortografii języka polskiego oraz tabliczka mnożenia do 30. Nauka przez zabawę, bez stresu.">
   <style>
 
 :root {
@@ -217,6 +217,7 @@ body {
 /* Main Nav Tabs */
 .nav-tabs {
   max-width: 1100px;
+  width: 100%;
   margin: 16px auto 8px;
   padding: 0 16px;
   display: grid;
@@ -1683,6 +1684,16 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
+@media (max-width: 600px) {
+  .toast-notice {
+    max-width: 88vw;
+    font-size: 0.85rem;
+    padding: 9px 16px;
+    border-radius: 18px;
+    text-align: center;
+  }
+}
+
 /* Print Styles for Diploma */
 @media print {
   body > *:not(#modal-diploma) {
@@ -1751,6 +1762,505 @@ body {
   }
 }
 
+/* ============================================================
+   DZIAŁ MATEMATYCZNY – tabliczka mnożenia do 30
+   ============================================================ */
+
+/* Przełącznik działów: Ortografia / Matematyka */
+.section-switcher {
+  max-width: 1100px;
+  width: 100%;
+  margin: 14px auto 0;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  position: relative;
+  z-index: 10;
+}
+
+.section-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  border: 2px solid #e2e8f0;
+  background: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.section-btn .section-icon { font-size: 1.7rem; }
+
+.section-btn .section-label {
+  display: block;
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--text-main);
+}
+
+.section-btn .section-sub {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.section-btn:hover { transform: translateY(-2px); border-color: #c4b5fd; }
+
+.section-btn.active {
+  background: var(--primary-gradient);
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.32);
+}
+
+.section-btn.active .section-label { color: #ffffff; }
+.section-btn.active .section-sub { color: rgba(255, 255, 255, 0.85); }
+
+/* Pasek nawigacji działu */
+.nav-tabs { transition: opacity 0.2s ease; }
+.nav-tabs.is-hidden { display: none; }
+.nav-tabs[data-section="math"] { grid-template-columns: repeat(3, 1fr); }
+
+/* Delikatna zmiana tła w dziale matematyki */
+body[data-section="math"] { background: linear-gradient(145deg, #ecfeff 0%, #f0fdf4 55%, #eff6ff 100%); }
+
+/* Nagłówek działu matematyki */
+.math-banner {
+  background: linear-gradient(135deg, #ffffff 0%, #ecfeff 100%);
+  border-color: #cffafe;
+}
+
+.math-status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.math-pill {
+  background: #ffffff;
+  border: 2px solid #bae6fd;
+  color: #0e7490;
+  border-radius: 9999px;
+  padding: 7px 16px;
+  font-weight: 800;
+  font-size: 0.92rem;
+  box-shadow: 0 3px 8px rgba(14, 165, 233, 0.1);
+}
+
+/* Karty poziomów matematycznych */
+.math-levels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 18px;
+}
+
+.math-level-card {
+  position: relative;
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: 22px;
+  box-shadow: var(--card-shadow);
+  border: 3px solid transparent;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.math-level-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 8px;
+  background: var(--realm-bg, var(--primary-gradient));
+}
+
+.math-level-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: var(--card-shadow-hover);
+  border-color: #a7f3d0;
+}
+
+.math-level-card.math-level-bonus {
+  border: 3px dashed #fda4af;
+  background: linear-gradient(160deg, #fff1f2 0%, #ffffff 60%);
+}
+
+.math-level-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.math-level-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: #f0fdfa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.14);
+}
+
+.math-level-number {
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #0e7490;
+  margin-bottom: 2px;
+}
+
+.math-level-card h4 {
+  font-size: 1.18rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+.math-level-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+  flex: 1;
+}
+
+.math-btn {
+  background: var(--primary-gradient);
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 12px 18px;
+  font-family: inherit;
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.math-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2); }
+
+/* Ekran quizu matematycznego */
+.math-quiz-title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #0e7490;
+  margin-bottom: 10px;
+}
+
+.math-puzzle-card {
+  padding: 26px 18px;
+}
+
+.math-display-box {
+  font-size: 3.6rem;
+  letter-spacing: 3px;
+  gap: 10px;
+}
+
+.math-answer-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 110px;
+  height: 84px;
+  padding: 0 14px;
+  background: #ecfeff;
+  border: 3px dashed #06b6d4;
+  border-radius: var(--radius-md);
+  color: #0e7490;
+  font-size: 2.6rem;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06);
+  animation: pulseSlot 2s infinite ease-in-out;
+}
+
+.math-answer-slot.filled {
+  border-style: solid;
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #15803d;
+  animation: none;
+}
+
+.math-choices-grid .choice-btn { font-size: 2rem; }
+.math-choices-grid { grid-template-columns: repeat(3, 1fr); }
+
+/* Tablica mnożenia */
+.math-cell-panel {
+  background: #ffffff;
+  border: 2px solid #cffafe;
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(6, 182, 212, 0.1);
+}
+
+.math-cell-equation {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #0e7490;
+}
+
+.math-cell-tip {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.math-cell-out {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #b45309;
+  background: #fffbeb;
+  border-radius: 10px;
+  padding: 6px 10px;
+}
+
+.math-grid-wrap {
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 22px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.math-table {
+  border-collapse: separate;
+  border-spacing: 4px;
+  margin: 0 auto;
+}
+
+.math-table th {
+  background: #e0f2fe;
+  color: #0c4a6e;
+  font-weight: 900;
+  font-size: 0.95rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+}
+
+.math-table .math-table-corner { background: #cffafe; }
+
+.math-cell {
+  width: 46px;
+  height: 46px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.math-cell.in-range {
+  background: #dcfce7;
+  color: #166534;
+  border: 2px solid #86efac;
+}
+
+.math-cell.out-range {
+  background: #f8fafc;
+  color: #cbd5e1;
+  border: 2px solid #e2e8f0;
+}
+
+.math-table .math-cell.row-hl { background: #bfdbfe; border-color: #60a5fa; color: #1e40af; }
+.math-table .math-cell.col-hl { background: #fae8ff; border-color: #e879f9; color: #86198f; }
+.math-table .math-cell.selected {
+  background: #06b6d4;
+  color: #ffffff;
+  border-color: #0891b2;
+  transform: scale(1.12);
+  box-shadow: 0 6px 14px rgba(6, 182, 212, 0.35);
+}
+
+/* Karty sztuczek */
+.math-tricks-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.math-trick-card {
+  display: flex;
+  gap: 12px;
+  background: #ffffff;
+  border: 2px solid #dbeafe;
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+}
+
+.math-trick-icon { font-size: 1.8rem; }
+
+.math-trick-body h4 {
+  font-size: 1.02rem;
+  font-weight: 900;
+  color: #1e3a8a;
+  margin-bottom: 4px;
+}
+
+.math-trick-rhyme {
+  font-size: 0.88rem;
+  font-style: italic;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+.math-trick-example {
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: #0e7490;
+  background: #ecfeff;
+  border-radius: 8px;
+  padding: 5px 10px;
+  display: inline-block;
+}
+
+/* Tabliczkowy wyścig */
+.math-race-hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.math-race-timer-bar {
+  height: 14px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.math-race-timer-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #34d399, #06b6d4);
+  border-radius: 9999px;
+  transition: width 1s linear;
+}
+
+.math-race-arena {
+  background: #ffffff;
+  border: 3px solid #cffafe;
+  border-radius: var(--radius-xl);
+  padding: 26px 18px;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.math-race-question {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: var(--text-main);
+}
+
+.math-race-qmark {
+  color: #06b6d4;
+  animation: pulseSlot 1.2s infinite ease-in-out;
+}
+
+.math-race-choices {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 520px;
+}
+
+.math-race-choices .choice-btn { font-size: 1.8rem; padding: 14px 10px; }
+
+.math-race-result {
+  background: #f0fdf4;
+  border: 2px dashed #86efac;
+  border-radius: var(--radius-lg);
+  padding: 16px 22px;
+  animation: fadeInScreen 0.3s ease;
+}
+
+.math-race-result-title { font-size: 1.2rem; font-weight: 900; color: #166534; }
+.math-race-result-score { font-size: 2rem; font-weight: 900; color: #0e7490; margin: 4px 0; }
+.math-race-result-detail { font-size: 0.9rem; font-weight: 700; color: var(--text-muted); }
+.math-race-result-hint { font-size: 0.9rem; font-weight: 700; color: #b45309; margin-top: 8px; }
+
+/* Grupy odznak */
+#badges-grid { display: block; }
+#badges-grid .badges-grid { margin-bottom: 6px; }
+.badge-group-title {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #7e22ce;
+  margin: 18px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px dashed #e9d5ff;
+}
+
+/* Widok zwycięstwa matematycznego */
+#screen-math-victory .math-vic-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .math-display-box { font-size: 2.2rem; letter-spacing: 1px; flex-wrap: nowrap; }
+  .math-puzzle-card { padding: 20px 10px; }
+  .math-answer-slot { min-width: 68px; height: 58px; font-size: 1.8rem; padding: 0 8px; }
+  .math-choices-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .math-choices-grid .choice-btn { font-size: 1.5rem; padding: 14px 6px; }
+  .math-table th { width: 32px; height: 32px; font-size: 0.8rem; }
+  .math-cell { width: 34px; height: 34px; font-size: 0.78rem; }
+  .math-race-question { font-size: 2.1rem; }
+  .math-race-choices .choice-btn { font-size: 1.4rem; }
+  .section-btn { padding: 10px 12px; gap: 8px; }
+  .section-btn .section-label { font-size: 0.95rem; }
+  .section-btn .section-sub { font-size: 0.7rem; }
+  .math-levels-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 620px) {
+  /* przełącznik działów: bez podtytułów, żeby nic się nie ucinało */
+  .section-switcher { gap: 8px; }
+  .section-btn { padding: 10px; gap: 6px; }
+  .section-btn .section-icon { font-size: 1.3rem; }
+  .section-btn .section-label { font-size: 0.92rem; }
+  .section-btn .section-sub { display: none; }
+}
+
+@media (max-width: 420px) {
+  .nav-tabs { grid-template-columns: repeat(2, 1fr) !important; }
+  .nav-tabs[data-section="math"] { grid-template-columns: repeat(3, 1fr) !important; }
+  .nav-tabs[data-section="math"] .nav-tab-btn { font-size: 0.68rem; padding: 8px 2px; }
+  .nav-tabs[data-section="math"] .nav-tab-btn .tab-icon { font-size: 1.05rem; }
+  .math-race-choices { grid-template-columns: 1fr; }
+  .math-display-box { font-size: 1.85rem; }
+  .math-answer-slot { min-width: 56px; height: 50px; font-size: 1.5rem; }
+}
+
+
   </style>
 </head>
 <body>
@@ -1769,8 +2279,8 @@ body {
       <div class="brand" onclick="switchScreen('realms')">
         <div id="brand-avatar-box" class="brand-avatar"></div>
         <div class="brand-title">
-          <span>Iskierka w Krainie Ortografii ✨</span>
-          <span class="brand-subtitle">AKADEMIA MAGII SŁÓW • KLASA II</span>
+          <span>Iskierka – Akademia Magii ✨</span>
+          <span class="brand-subtitle">SŁOWA I LICZBY • KLASA II</span>
         </div>
       </div>
 
@@ -1795,8 +2305,26 @@ body {
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
-  <nav class="nav-tabs">
+  <!-- Section Switcher: Ortografia / Matematyka -->
+  <div class="section-switcher">
+    <button class="section-btn active" data-section="ortografia">
+      <span class="section-icon">📚</span>
+      <span>
+        <span class="section-label">Ortografia</span>
+        <span class="section-sub">Krainy Słów – rz, ż, ó, u, ch, h</span>
+      </span>
+    </button>
+    <button class="section-btn" data-section="math">
+      <span class="section-icon">🔢</span>
+      <span>
+        <span class="section-label">Matematyka</span>
+        <span class="section-sub">Tabliczka mnożenia do 30</span>
+      </span>
+    </button>
+  </div>
+
+  <!-- Navigation Tabs: Orthography -->
+  <nav class="nav-tabs" data-section="ortografia">
     <button class="nav-tab-btn active" data-screen="realms">
       <span class="tab-icon">🗺️</span>
       <span>Krainy Słów</span>
@@ -1812,6 +2340,22 @@ body {
     <button class="nav-tab-btn" data-screen="pairs">
       <span class="tab-icon">🔗</span>
       <span>Magiczne Pary</span>
+    </button>
+  </nav>
+
+  <!-- Navigation Tabs: Mathematics -->
+  <nav class="nav-tabs is-hidden" data-section="math">
+    <button class="nav-tab-btn" data-screen="math">
+      <span class="tab-icon">🗺️</span>
+      <span>Kraina Liczb</span>
+    </button>
+    <button class="nav-tab-btn" data-screen="math-table">
+      <span class="tab-icon">📊</span>
+      <span>Tablica i Sztuczki</span>
+    </button>
+    <button class="nav-tab-btn" data-screen="math-race">
+      <span class="tab-icon">⚡</span>
+      <span>Tabliczkowy Wyścig</span>
     </button>
   </nav>
 
@@ -2070,6 +2614,140 @@ body {
       </div>
     </section>
 
+
+    <!-- ================= DZIAŁ MATEMATYCZNY ================= -->
+
+    <!-- Screen M1: Kraina Liczb (mapa poziomów tabliczki mnożenia) -->
+    <section id="screen-math" class="screen">
+      <div class="screen-banner math-banner">
+        <div class="banner-content">
+          <h2>🔢 Kraina Liczb – Tabliczka Mnożenia do 30</h2>
+          <p>Wybierz poziom i ćwicz mnożenie krok po kroku. Każde działanie pokaże Ci sztuczkę, która naprawdę ułatwia liczenie!</p>
+        </div>
+        <div class="banner-mascot" style="font-size: 3.4rem; text-align: center;">🧮</div>
+      </div>
+
+      <div class="math-status-row">
+        <span id="math-summary-line" class="math-pill">⭐ 0 / 18 gwiazdek w tabliczce</span>
+        <span id="math-best-line" class="math-pill">⚡ Wyścig jeszcze przed Tobą!</span>
+      </div>
+
+      <div id="math-levels-grid" class="math-levels-grid"></div>
+    </section>
+
+    <!-- Screen M2: Quiz matematyczny -->
+    <section id="screen-math-quiz" class="screen">
+      <div class="quiz-container">
+        <div class="quiz-header">
+          <button class="btn-back" onclick="switchScreen('math')" style="padding: 6px 12px; font-size: 0.85rem;">
+            ⬅ Wróć
+          </button>
+          <div class="quiz-progress-bar-wrap">
+            <div id="math-progress-fill" class="quiz-progress-fill" style="width: 0%;"></div>
+          </div>
+          <span id="math-counter" class="quiz-counter">Zadanie 1 z 10</span>
+        </div>
+
+        <h3 id="math-level-title" class="math-quiz-title">Tabliczka mnożenia</h3>
+
+        <div class="quiz-mascot-dialogue">
+          <div id="math-mascot-box" class="quiz-mascot-img"></div>
+          <div id="math-mascot-dialogue" class="quiz-dialogue-text">
+            Policz uważnie, mała matematyczko!
+          </div>
+        </div>
+
+        <div class="word-puzzle-card math-puzzle-card">
+          <div id="math-display-box" class="word-display-box math-display-box">
+            2 × 4 = <span class="math-answer-slot" id="math-answer-slot">?</span>
+          </div>
+        </div>
+
+        <div class="quiz-actions-row">
+          <button id="btn-math-listen" class="btn-listen">🔊 Posłuchaj działania</button>
+        </div>
+
+        <div id="math-choices-grid" class="choices-grid math-choices-grid"></div>
+
+        <div id="math-feedback-box" class="quiz-feedback-box"></div>
+
+        <button id="btn-math-next" class="btn-next-question" style="display: none;" onclick="nextMathQuestion()">
+          Następne działanie ➔
+        </button>
+      </div>
+    </section>
+
+    <!-- Screen M3: Zwycięstwo w poziomie matematycznym -->
+    <section id="screen-math-victory" class="screen">
+      <div class="quiz-container" style="text-align: center; padding: 40px 24px;">
+        <div style="font-size: 4rem; animation: petGentleFloat 2s infinite ease-in-out;">🧮</div>
+        <div id="math-vic-stars" class="level-stars-display" style="justify-content: center; font-size: 2.8rem; margin: 16px 0;"></div>
+        <h3 id="math-vic-title" style="font-size: 2.1rem; font-weight: 900; color: #0e7490; margin-bottom: 8px;">Mistrzyni tabliczki!</h3>
+        <p id="math-vic-desc" style="font-size: 1.15rem; color: #475569; max-width: 480px; margin: 0 auto 24px; line-height: 1.5;"></p>
+        <div class="math-vic-actions">
+          <button class="btn-next-question" onclick="startMathLevel(mathActiveLevel ? mathActiveLevel.level : 1)" style="max-width: 220px;">
+            🔁 Jeszcze raz
+          </button>
+          <button class="btn-back" onclick="switchScreen('math')">
+            ⬅ Kraina Liczb
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screen M4: Tablica mnożenia i sztuczki -->
+    <section id="screen-math-table" class="screen">
+      <div class="screen-banner math-banner" style="margin-bottom: 16px; padding: 14px 18px;">
+        <div class="banner-content">
+          <h2>📊 Tablica mnożenia do 30</h2>
+          <p>Dotknij dowolnego pola, aby zobaczyć działanie, usłyszeć je i poznać sztuczkę. Zielone pola mieszczą się w zakresie do 30.</p>
+        </div>
+      </div>
+
+      <div id="math-cell-panel" class="math-cell-panel">
+        <div class="math-cell-equation">Wybierz pole w tablicy 👇</div>
+        <div class="math-cell-tip">Na przykład 4 × 5 = 20.</div>
+      </div>
+
+      <div class="math-grid-wrap">
+        <div id="math-grid"></div>
+      </div>
+
+      <div id="math-tricks-list" class="math-tricks-list"></div>
+    </section>
+
+    <!-- Screen M5: Tabliczkowy Wyścig -->
+    <section id="screen-math-race" class="screen">
+      <div class="bubble-game-container">
+        <div class="screen-banner math-banner" style="margin-bottom: 14px; padding: 14px 18px;">
+          <div class="banner-content">
+            <h2>⚡ Tabliczkowy Wyścig</h2>
+            <p>Masz 45 sekund. Odpowiadaj jak najszybciej – każda poprawna odpowiedź to punkt i kryształ!</p>
+          </div>
+        </div>
+
+        <div class="math-race-hud">
+          <span class="stat-pill">Punkty: <strong id="math-race-score">0</strong></span>
+          <span class="stat-pill stat-combo" id="math-race-combo">x1</span>
+          <span class="stat-pill" style="color: #6d28d9;">⏱ <strong id="math-race-time">45s</strong></span>
+          <span class="stat-pill" id="math-race-best">Rekord: –</span>
+        </div>
+
+        <div class="math-race-timer-bar">
+          <div id="math-race-timer-fill" class="math-race-timer-fill" style="width: 100%;"></div>
+        </div>
+
+        <div class="math-race-arena">
+          <div id="math-race-question" class="math-race-question">Gotowa? Naciśnij Start!</div>
+          <div id="math-race-choices" class="math-race-choices"></div>
+          <div id="math-race-result" class="math-race-result" style="display: none;"></div>
+          <button id="math-race-start" class="btn-play-level" onclick="startMathRace()" style="margin-top: 8px; padding: 14px 34px; font-size: 1.2rem;">
+            🚀 Start!
+          </button>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- MODAL: Wardrobe & Shop -->
@@ -2125,14 +2803,14 @@ body {
 
       <div class="diploma-frame">
         <div class="diploma-title">DYPLOM MISTRZYNI</div>
-        <div class="diploma-subtitle">Akademia Magii Słów Klasy II</div>
+        <div class="diploma-subtitle">Akademia Magii Słów i Liczb • Klasa II</div>
 
         <div class="diploma-certifies">Niniejszym uroczyście zaświadcza się, że:</div>
 
         <input type="text" id="diploma-player-name" class="diploma-name-input" value="Zuzia" title="Wpisz swoje imię" oninput="onDiplomaNameChange(this.value)">
 
         <div class="diploma-text">
-          Ukończyła z wyróżnieniem wyzwania z zakresu polskiej ortografii dla klasy II szkoły podstawowej. Opanowała czary pisowni RZ i Ż, Ó i U, CH i H, zmiękczeń oraz wielkich liter. Chochliki ortograficzne nie mają przed nią żadnych tajemnic!
+          Ukończyła z wyróżnieniem wyzwania z zakresu polskiej ortografii oraz matematyki dla klasy II szkoły podstawowej. Opanowała czary pisowni RZ i Ż, Ó i U, CH i H, zmiękczeń oraz wielkich liter, a także tabliczkę mnożenia w zakresie do 30. Chochliki ortograficzne i trudne działania nie mają przed nią żadnych tajemnic!
         </div>
 
         <div class="diploma-seal-row">
@@ -2177,7 +2855,7 @@ body {
 
       <div class="guide-section">
         <h4>🌟 Cel Programu i Podstawa Programowa</h4>
-        <p>Program "Iskierka w Krainie Ortografii" został stworzony z myślą o uczniach klasy II szkoły podstawowej (wiek 7-9 lat). Wszystkie zagadnienia są w 100% zgodne z polską podstawą programową edukacji wczesnoszkolnej.</p>
+        <p>Program "Iskierka – Akademia Magii" został stworzony z myślą o uczniach klasy II szkoły podstawowej (wiek 7-9 lat). Zawiera dwa działy: <strong>ortografię</strong> oraz <strong>matematykę</strong> (tabliczkę mnożenia w zakresie do 30). Wszystkie zagadnienia są zgodne z polską podstawą programową edukacji wczesnoszkolnej, a przełączanie działów odbywa się jednym przyciskiem na górze ekranu.</p>
       </div>
 
       <div class="guide-section">
@@ -2188,6 +2866,17 @@ body {
           <li><strong>CH i H:</strong> CH na końcu wyrazu, CH po literze S, CH wymienne na SZ, słowa z H do zapamiętania.</li>
           <li><strong>Zmiękczenia & Reguły:</strong> Zapis zmiękczeń przez "i" przed samogłoskami oraz z kreską (ć, ś, ź, ń, dź) na końcu i przed spółgłoską; wielka litera w imionach, miastach, państwach i rzekach; pisownia "nie" z czasownikami osobno.</li>
         </ul>
+      </div>
+
+      <div class="guide-section">
+        <h4>🔢 Zakres Matematyczny – Tabliczka Mnożenia do 30</h4>
+        <ul>
+          <li><strong>Pięć poziomów podstawowych (wyniki do 30):</strong> mnożenie przez 2, przez 3, przez 4 i 5, przez 6–9 oraz poziom mieszany „Mistrzyni do 30”.</li>
+          <li><strong>Poziom bonusowy:</strong> mnożenie przez 10, 20 i 30 (dopisywanie zera) – dla dzieci gotowych na więcej.</li>
+          <li><strong>Tablica i Sztuczki:</strong> interaktywna tablica mnożenia (pola do 30 wyróżnione kolorem) oraz karty ze sztuczkami: podwojenie, połowa z dziesiątki, ×9 jako dziesiątka minus liczba.</li>
+          <li><strong>Tabliczkowy Wyścig:</strong> 45-sekundowa gra na czas, która utrwala automatyzm odpowiedzi. Rekord zapisuje się w przeglądarce.</li>
+        </ul>
+        <p>Każde błędne odpowiedzenie w quizie natychmiast pokazuje pełne wyjaśnienie krok po kroku (np. 7 × 4 = 7 × 2 × 2), więc dziecko uczy się rozumienia, a nie tylko pamięci.</p>
       </div>
 
       <div class="guide-section">
@@ -2217,6 +2906,11 @@ body {
     const BUBBLE_CATEGORIES = [{"id": "catch_rz", "title": "Złap słowa z RZ!", "desc": "Dotykaj tylko baniek ze słówkami z RZ!", "target": "rz", "words": [{"text": "drzewo", "correct": true}, {"text": "grzyb", "correct": true}, {"text": "brzoza", "correct": true}, {"text": "orzeł", "correct": true}, {"text": "morze", "correct": true}, {"text": "krzak", "correct": true}, {"text": "wrzesień", "correct": true}, {"text": "trzeba", "correct": true}, {"text": "żaba", "correct": false, "reason": "Żaba ma Ż z kropką!"}, {"text": "żółw", "correct": false, "reason": "Żółw ma Ż z kropką!"}, {"text": "żyrafa", "correct": false, "reason": "Żyrafa ma Ż z kropką!"}, {"text": "żelki", "correct": false, "reason": "Żelki mają Ż z kropką!"}, {"text": "żonkil", "correct": false, "reason": "Żonkil ma Ż z kropką!"}]}, {"id": "catch_o", "title": "Złap słowa z Ó!", "desc": "Łap bańki zawierające Ó z kreską!", "target": "ó", "words": [{"text": "stół", "correct": true}, {"text": "król", "correct": true}, {"text": "ogórek", "correct": true}, {"text": "wóz", "correct": true}, {"text": "róża", "correct": true}, {"text": "góra", "correct": true}, {"text": "córka", "correct": true}, {"text": "pocztówka", "correct": true}, {"text": "ucho", "correct": false, "reason": "Ucho piszemy ze zwykłym U!"}, {"text": "zupa", "correct": false, "reason": "Zupa ma zwykłe U!"}, {"text": "kura", "correct": false, "reason": "Kura ma zwykłe U!"}, {"text": "nutka", "correct": false, "reason": "Nutka ma zwykłe U!"}, {"text": "ulica", "correct": false, "reason": "Ulica zaczyna się na zwykłe U!"}]}, {"id": "catch_h", "title": "Złap słowa z H!", "desc": "Wybieraj tylko słowa z pojedynczym H!", "target": "h", "words": [{"text": "herbata", "correct": true}, {"text": "hipopotam", "correct": true}, {"text": "hulajnoga", "correct": true}, {"text": "hamak", "correct": true}, {"text": "hotel", "correct": true}, {"text": "huśtawka", "correct": true}, {"text": "hałas", "correct": true}, {"text": "dach", "correct": false, "reason": "Dach ma CH na końcu!"}, {"text": "orzech", "correct": false, "reason": "Orzech ma CH!"}, {"text": "mucha", "correct": false, "reason": "Mucha ma CH!"}, {"text": "chmura", "correct": false, "reason": "Chmura zaczyna się na CH!"}, {"text": "chleb", "correct": false, "reason": "Chleb piszemy przez CH!"}]}, {"id": "catch_caps", "title": "Złap Wielkie Litery!", "desc": "Dotknij słów pisanych wielką literą (imiona, miasta, rzeki)!", "target": "caps", "words": [{"text": "Kasia", "correct": true}, {"text": "Warszawa", "correct": true}, {"text": "Wisła", "correct": true}, {"text": "Polska", "correct": true}, {"text": "Staś", "correct": true}, {"text": "Kraków", "correct": true}, {"text": "Tatry", "correct": true}, {"text": "kotek", "correct": false, "reason": "Zwykłe rzeczy piszemy małą literą!"}, {"text": "piłka", "correct": false, "reason": "Piłka ma małą literę!"}, {"text": "lalka", "correct": false, "reason": "Lalka ma małą literę!"}, {"text": "dom", "correct": false, "reason": "Dom piszemy małą literą!"}, {"text": "drzewo", "correct": false, "reason": "Drzewo piszemy małą literą!"}]}];
     const WARDROBE_ITEMS = {"pets": [{"id": "fox", "name": "Iskierka", "desc": "Mądry, radosny rudy lisek z czarodziejską iskrą", "icon": "🦊", "price": 0}, {"id": "cat", "name": "Luna", "desc": "Gwiezdna kotka o fioletowym futerku i bystrym oku", "icon": "🐱", "price": 0}, {"id": "bunny", "name": "Pikuś", "desc": "Wesoły króliczek z puszystymi uszkami do czarów", "icon": "🐰", "price": 0}], "hats": [{"id": "star_tiara", "name": "Gwiezdna Tiara", "icon": "✨", "price": 0, "desc": "Lśniąca tiara z gwiezdnego pyłu"}, {"id": "wizard_hat", "name": "Czapka Czarodzieja", "icon": "🧙‍♀️", "price": 10, "desc": "Klasyczny fioletowy kapelusz magii"}, {"id": "pink_bow", "name": "Różowa Kokarda", "icon": "🎀", "price": 15, "desc": "Urocza jedwabna kokardka"}, {"id": "flower_wreath", "name": "Kwiatowy Wianek", "icon": "🌸", "price": 20, "desc": "Wianek ze świeżych leśnych stokrotek"}, {"id": "royal_crown", "name": "Złota Korona Mistrza", "icon": "👑", "price": 35, "desc": "Królewska korona z rubinem mądrości"}], "wands": [{"id": "wand_star", "name": "Różdżka Gwiazdka", "icon": "⭐", "price": 0, "desc": "Rzuca złote iskierki wiedzy"}, {"id": "wand_heart", "name": "Różdżka Serduszko", "icon": "💖", "price": 15, "desc": "Roztacza ciepłą magię przyjaźni"}, {"id": "wand_rainbow", "name": "Różdżka Tęcza", "icon": "🌈", "price": 25, "desc": "Mieni się wszystkimi kolorami tęczy"}, {"id": "wand_crystal", "name": "Kryształowe Pióro", "icon": "🔮", "price": 40, "desc": "Magiczne pióro piszące bezbłędnie"}], "auras": [{"id": "aura_sparkles", "name": "Złoty Pył", "icon": "✨", "price": 0, "desc": "Lśniące iskierki wokół chowańca"}, {"id": "aura_hearts", "name": "Różowe Serduszka", "icon": "💕", "price": 15, "desc": "Wesoło unoszące się serca"}, {"id": "aura_bubbles", "name": "Magiczne Bańki", "icon": "🫧", "price": 20, "desc": "Tęczowe bąbelki tańczące w powietrzu"}, {"id": "aura_shooting_stars", "name": "Deszcz Gwiazd", "icon": "🌠", "price": 30, "desc": "Gwiezdny pył spadający z nieba"}]};
     const BADGES = [{"id": "first_step", "name": "Pierwszy Krok", "icon": "🌱", "desc": "Rozwiązano pierwsze zadanie w grze!"}, {"id": "master_rz", "name": "Władczyni Boru RZ", "icon": "🌲", "desc": "Ukończono wszystkie poziomy w Borze RZ i Ż!"}, {"id": "master_o", "name": "Zdobywczyni Wzgórza Ó", "icon": "🍄", "desc": "Opanowano wszystkie wyzwania na Wzgórzu Ó i U!"}, {"id": "master_ch", "name": "Strażniczka Zamku CH", "icon": "🏰", "desc": "Poznano wszystkie sekrety Zamku CH i H!"}, {"id": "master_soft", "name": "Królowa Zmiękczeń", "icon": "🌟", "desc": "Zwyciężono na Wyspie Zmiękczeń i Zasad!"}, {"id": "detective_5", "name": "Sokole Oko", "icon": "🔍", "desc": "Rozwiązano 5 spraw w Biurze Detektywa!"}, {"id": "detective_all", "name": "Arcymistrz Śledztwa", "icon": "🕵️‍♀️", "desc": "Złapano Chochlika we wszystkich 12 sprawach!"}, {"id": "bubble_champ", "name": "Zwinne Paluszki", "icon": "🫧", "desc": "Złapano 25 gwiazdek w Gwiezdnym Połowie!"}, {"id": "pair_master", "name": "Mistrzyni Wymiany", "icon": "🔗", "desc": "Ukończono 3 zestawy Magicznych Par!"}, {"id": "fashionista", "name": "Królowa Stylu", "icon": "👗", "desc": "Odblokowano 3 nowe akcesoria w Garderobie!"}, {"id": "bookworm", "name": "Księga Tajemnic", "icon": "📖", "desc": "Otworzono i przeczytano zasady w Księdze Zaklęć!"}, {"id": "grand_wizard", "name": "Wielka Czarodziejka Ortografii", "icon": "👑", "desc": "Zdobyto komplet gwiazdek w całej grze!"}];
+
+    const MATH_LEVELS = [{"id": "math_2", "level": 1, "name": "Podwajamy! Mnożenie przez 2", "description": "Każda liczba razy 2 to jej podwojenie. Dodaj ją do siebie!", "badge": "🐣", "bg_gradient": "linear-gradient(135deg, #34d399 0%, #10b981 100%)", "questions": [{"display": "2 × 11 = [?]", "fullWord": "2 razy 11", "options": ["22", "33", "21"], "answer": "22", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "2 × 11 = 22. Sprawdź: 22 : 11 = 2!"}, {"display": "2 × 10 = [?]", "fullWord": "2 razy 10", "options": ["20", "2", "10"], "answer": "20", "hint": "×10 to dopisz zero na końcu!", "reason": "2 × 10 = 20, bo przy ×10 dopisujemy zero: 2 → 20!"}, {"display": "2 × 15 = [?]", "fullWord": "2 razy 15", "options": ["30", "45", "28"], "answer": "30", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "2 × 15 = 30. Sprawdź: 30 : 15 = 2!"}, {"display": "2 × 4 = [?]", "fullWord": "2 razy 4", "options": ["8", "6", "9"], "answer": "8", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "2 × 4 = 8, bo 2×2=4, a 4×2=8!"}, {"display": "2 × 5 = [?]", "fullWord": "2 razy 5", "options": ["10", "12", "9"], "answer": "10", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "2 × 5 = 10, bo 10×2=20, a 20:2=10!"}, {"display": "2 × 9 = [?]", "fullWord": "2 razy 9", "options": ["18", "20", "16"], "answer": "18", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "2 × 9 = 18, bo 10×2=20, a 20−2=18!"}, {"display": "2 × 12 = [?]", "fullWord": "2 razy 12", "options": ["24", "22", "26"], "answer": "24", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "2 × 12 = 24. Sprawdź: 24 : 12 = 2!"}, {"display": "2 × 14 = [?]", "fullWord": "2 razy 14", "options": ["28", "14", "27"], "answer": "28", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "2 × 14 = 28. Sprawdź: 28 : 14 = 2!"}, {"display": "2 × 6 = [?]", "fullWord": "2 razy 6", "options": ["12", "6", "10"], "answer": "12", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "2 × 6 = 12, bo 2×5=10, a 10+2=12!"}, {"display": "2 × 2 = [?]", "fullWord": "2 razy 2", "options": ["4", "2", "3"], "answer": "4", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "2 × 2 = 4, bo podwojenie: 2 + 2 = 4!"}]}, {"id": "math_3", "level": 2, "name": "Trójkami do celu! Mnożenie przez 3", "description": "Policz najpierw podwojenie, a potem dodaj jeszcze jedną taką liczbę.", "badge": "🐥", "bg_gradient": "linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)", "questions": [{"display": "3 × 4 = [?]", "fullWord": "3 razy 4", "options": ["12", "16", "11"], "answer": "12", "hint": "×4 to dwa razy podwojenie: ×2 i jeszcze raz ×2!", "reason": "3 × 4 = 12, bo 3×2=6, a 6×2=12!"}, {"display": "3 × 6 = [?]", "fullWord": "3 razy 6", "options": ["18", "21", "19"], "answer": "18", "hint": "×6 to ×5 i jeszcze jedna taka liczba!", "reason": "3 × 6 = 18, bo 3×5=15, a 15+3=18!"}, {"display": "3 × 2 = [?]", "fullWord": "3 razy 2", "options": ["6", "9", "4"], "answer": "6", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "3 × 2 = 6, bo 2×2=4, a 4+2=6!"}, {"display": "3 × 10 = [?]", "fullWord": "3 razy 10", "options": ["30", "3", "40"], "answer": "30", "hint": "×10 to dopisz zero na końcu!", "reason": "3 × 10 = 30, bo przy ×10 dopisujemy zero: 3 → 30!"}, {"display": "3 × 7 = [?]", "fullWord": "3 razy 7", "options": ["21", "14", "20"], "answer": "21", "hint": "×7 to ×5 i jeszcze ×2!", "reason": "3 × 7 = 21, bo 3×5=15, a 15+6=21!"}, {"display": "3 × 3 = [?]", "fullWord": "3 razy 3", "options": ["9", "6", "10"], "answer": "9", "hint": "×3 to ×2 i jeszcze jedna taka liczba!", "reason": "3 × 3 = 9, bo 3×2=6, a 6+3=9!"}, {"display": "3 × 5 = [?]", "fullWord": "3 razy 5", "options": ["15", "12", "17"], "answer": "15", "hint": "×5 to połowa z ×10. Najpierw ×10, potem na pół!", "reason": "3 × 5 = 15, bo 10×3=30, a 30:2=15!"}, {"display": "3 × 9 = [?]", "fullWord": "3 razy 9", "options": ["27", "24", "28"], "answer": "27", "hint": "×9 to ×10 minus jeszcze jedna taka liczba!", "reason": "3 × 9 = 27, bo 10×3=30, a 30−3=27!"}, {"display": "3 × 8 = [?]", "fullWord": "3 razy 8", "options": ["24", "32", "26"], "answer": "24", "hint": "×8 to ×4, a potem jeszcze raz ×2!", "reason": "3 × 8 = 24, bo 3×4=12, a 12×2=24!"}]}, {"id": "math_45", "level": 3, "name": "Czwórki i piątki", "description": "×4 to dwa razy podwojenie, a ×5 to połowa z ×10. Spróbuj!", "badge": "🐬", "bg_gradient": "linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)", "questions": [{"display": "4 × 7 = [?]", "fullWord": "4 razy 7", "options": ["28", "32", "30"], "answer": "28", "hint": "×4 to dwa razy podwojenie: ×2 i jeszcze raz ×2!", "reason": "4 × 7 = 28, bo 4×5=20, a 20+8=28!"}, {"display": "5 × 2 = [?]", "fullWord": "5 razy 2", "options": ["10", "12", "9"], "answer": "10", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "5 × 2 = 10, bo 10×2=20, a 20:2=10!"}, {"display": "5 × 4 = [?]", "fullWord": "5 razy 4", "options": ["20", "25", "21"], "answer": "20", "hint": "×5 to połowa z ×10. Najpierw ×10, potem na pół!", "reason": "5 × 4 = 20, bo 10×4=40, a 40:2=20!"}, {"display": "4 × 4 = [?]", "fullWord": "4 razy 4", "options": ["16", "12", "18"], "answer": "16", "hint": "×4 to dwa razy podwojenie: ×2 i jeszcze raz ×2!", "reason": "4 × 4 = 16, bo 4×2=8, a 8×2=16!"}, {"display": "5 × 5 = [?]", "fullWord": "5 razy 5", "options": ["25", "20", "24"], "answer": "25", "hint": "×5 to połowa z ×10. Najpierw ×10, potem na pół!", "reason": "5 × 5 = 25, bo 10×5=50, a 50:2=25!"}, {"display": "5 × 6 = [?]", "fullWord": "5 razy 6", "options": ["30", "36", "32"], "answer": "30", "hint": "×5 to połowa z ×10. Najpierw ×10, potem na pół!", "reason": "5 × 6 = 30, bo 5×5=25, a 25+5=30!"}, {"display": "4 × 6 = [?]", "fullWord": "4 razy 6", "options": ["24", "20", "23"], "answer": "24", "hint": "×4 to dwa razy podwojenie: ×2 i jeszcze raz ×2!", "reason": "4 × 6 = 24, bo 4×5=20, a 20+4=24!"}, {"display": "5 × 3 = [?]", "fullWord": "5 razy 3", "options": ["15", "10", "17"], "answer": "15", "hint": "×5 to połowa z ×10. Najpierw ×10, potem na pół!", "reason": "5 × 3 = 15, bo 10×3=30, a 30:2=15!"}, {"display": "4 × 2 = [?]", "fullWord": "4 razy 2", "options": ["8", "4", "9"], "answer": "8", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "4 × 2 = 8, bo 2×2=4, a 4×2=8!"}, {"display": "4 × 3 = [?]", "fullWord": "4 razy 3", "options": ["12", "16", "11"], "answer": "12", "hint": "×4 to dwa razy podwojenie: ×2 i jeszcze raz ×2!", "reason": "4 × 3 = 12, bo 3×2=6, a 6×2=12!"}]}, {"id": "math_6789", "level": 4, "name": "Wielka czwórka: 6, 7, 8, 9", "description": "Najtrudniejsze sztuczki tabliczki w zakresie do 30. Dasz radę!", "badge": "🦉", "bg_gradient": "linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)", "questions": [{"display": "9 × 2 = [?]", "fullWord": "9 razy 2", "options": ["18", "20", "16"], "answer": "18", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "9 × 2 = 18, bo 10×2=20, a 20−2=18!"}, {"display": "7 × 3 = [?]", "fullWord": "7 razy 3", "options": ["21", "18", "20"], "answer": "21", "hint": "×7 to ×5 i jeszcze ×2!", "reason": "7 × 3 = 21, bo 3×5=15, a 15+6=21!"}, {"display": "7 × 2 = [?]", "fullWord": "7 razy 2", "options": ["14", "21", "15"], "answer": "14", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "7 × 2 = 14, bo 2×5=10, a 10+4=14!"}, {"display": "6 × 2 = [?]", "fullWord": "6 razy 2", "options": ["12", "10", "14"], "answer": "12", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "6 × 2 = 12, bo 2×5=10, a 10+2=12!"}, {"display": "8 × 2 = [?]", "fullWord": "8 razy 2", "options": ["16", "8", "15"], "answer": "16", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "8 × 2 = 16, bo 2×4=8, a 8×2=16!"}, {"display": "9 × 3 = [?]", "fullWord": "9 razy 3", "options": ["27", "18", "28"], "answer": "27", "hint": "×9 to ×10 minus jeszcze jedna taka liczba!", "reason": "9 × 3 = 27, bo 10×3=30, a 30−3=27!"}, {"display": "8 × 3 = [?]", "fullWord": "8 razy 3", "options": ["24", "32", "26"], "answer": "24", "hint": "×8 to ×4, a potem jeszcze raz ×2!", "reason": "8 × 3 = 24, bo 3×4=12, a 12×2=24!"}, {"display": "6 × 4 = [?]", "fullWord": "6 razy 4", "options": ["24", "18", "23"], "answer": "24", "hint": "×4 to dwa razy podwojenie: ×2 i jeszcze raz ×2!", "reason": "6 × 4 = 24, bo 4×5=20, a 20+4=24!"}, {"display": "6 × 5 = [?]", "fullWord": "6 razy 5", "options": ["30", "36", "32"], "answer": "30", "hint": "×5 to połowa z ×10. Najpierw ×10, potem na pół!", "reason": "6 × 5 = 30, bo 5×5=25, a 25+5=30!"}, {"display": "6 × 3 = [?]", "fullWord": "6 razy 3", "options": ["18", "21", "19"], "answer": "18", "hint": "×6 to ×5 i jeszcze jedna taka liczba!", "reason": "6 × 3 = 18, bo 3×5=15, a 15+3=18!"}]}, {"id": "math_10_mix", "level": 5, "name": "Mistrzyni do 30!", "description": "Wszystkie działania do 30 wymieszane razem. Prawdziwy test!", "badge": "🏅", "bg_gradient": "linear-gradient(135deg, #f472b6 0%, #ec4899 100%)", "questions": [{"display": "8 × 3 = [?]", "fullWord": "8 razy 3", "options": ["24", "32", "26"], "answer": "24", "hint": "×8 to ×4, a potem jeszcze raz ×2!", "reason": "8 × 3 = 24, bo 3×4=12, a 12×2=24!"}, {"display": "2 × 14 = [?]", "fullWord": "2 razy 14", "options": ["28", "14", "27"], "answer": "28", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "2 × 14 = 28. Sprawdź: 28 : 14 = 2!"}, {"display": "10 × 2 = [?]", "fullWord": "10 razy 2", "options": ["20", "30", "10"], "answer": "20", "hint": "×10 to dopisz zero na końcu!", "reason": "10 × 2 = 20, bo przy ×10 dopisujemy zero: 2 → 20!"}, {"display": "9 × 3 = [?]", "fullWord": "9 razy 3", "options": ["27", "18", "28"], "answer": "27", "hint": "×9 to ×10 minus jeszcze jedna taka liczba!", "reason": "9 × 3 = 27, bo 10×3=30, a 30−3=27!"}, {"display": "6 × 5 = [?]", "fullWord": "6 razy 5", "options": ["30", "36", "32"], "answer": "30", "hint": "×5 to połowa z ×10. Najpierw ×10, potem na pół!", "reason": "6 × 5 = 30, bo 5×5=25, a 25+5=30!"}, {"display": "3 × 7 = [?]", "fullWord": "3 razy 7", "options": ["21", "14", "20"], "answer": "21", "hint": "×7 to ×5 i jeszcze ×2!", "reason": "3 × 7 = 21, bo 3×5=15, a 15+6=21!"}, {"display": "2 × 12 = [?]", "fullWord": "2 razy 12", "options": ["24", "22", "26"], "answer": "24", "hint": "×2 to podwojenie. Dodaj liczbę do siebie!", "reason": "2 × 12 = 24. Sprawdź: 24 : 12 = 2!"}, {"display": "7 × 4 = [?]", "fullWord": "7 razy 4", "options": ["28", "32", "30"], "answer": "28", "hint": "×4 to dwa razy podwojenie: ×2 i jeszcze raz ×2!", "reason": "7 × 4 = 28, bo 4×5=20, a 20+8=28!"}, {"display": "5 × 5 = [?]", "fullWord": "5 razy 5", "options": ["25", "20", "24"], "answer": "25", "hint": "×5 to połowa z ×10. Najpierw ×10, potem na pół!", "reason": "5 × 5 = 25, bo 10×5=50, a 50:2=25!"}, {"display": "10 × 3 = [?]", "fullWord": "10 razy 3", "options": ["30", "20", "3"], "answer": "30", "hint": "×10 to dopisz zero na końcu!", "reason": "10 × 3 = 30, bo przy ×10 dopisujemy zero: 3 → 30!"}]}, {"id": "math_tens", "level": 6, "name": "Wyzwanie: dziesiątki (×10, ×20, ×30)", "description": "Poziom dodatkowy dla odważnych – mnożenie przez 10, 20 i 30. Dopisz zero!", "badge": "🚀", "bg_gradient": "linear-gradient(135deg, #fb7185 0%, #e11d48 100%)", "questions": [{"display": "20 × 2 = [?]", "fullWord": "20 razy 2", "options": ["40", "30", "60"], "answer": "40", "hint": "×20 to ×2, a potem dopisz zero!", "reason": "20 × 2 = 40, bo 2×2=4, a potem dopisujemy zero!"}, {"display": "20 × 4 = [?]", "fullWord": "20 razy 4", "options": ["80", "70", "90"], "answer": "80", "hint": "×20 to ×2, a potem dopisz zero!", "reason": "20 × 4 = 80, bo 4×2=8, a potem dopisujemy zero!"}, {"display": "30 × 2 = [?]", "fullWord": "30 razy 2", "options": ["60", "50", "70"], "answer": "60", "hint": "×30 to ×3, a potem dopisz zero!", "reason": "30 × 2 = 60, bo 2×3=6, a potem dopisujemy zero!"}, {"display": "20 × 3 = [?]", "fullWord": "20 razy 3", "options": ["60", "50", "40"], "answer": "60", "hint": "×20 to ×2, a potem dopisz zero!", "reason": "20 × 3 = 60, bo 3×2=6, a potem dopisujemy zero!"}, {"display": "10 × 7 = [?]", "fullWord": "10 razy 7", "options": ["70", "7", "80"], "answer": "70", "hint": "×10 to dopisz zero na końcu!", "reason": "10 × 7 = 70, bo przy ×10 dopisujemy zero: 7 → 70!"}, {"display": "10 × 9 = [?]", "fullWord": "10 razy 9", "options": ["90", "80", "9"], "answer": "90", "hint": "×10 to dopisz zero na końcu!", "reason": "10 × 9 = 90, bo przy ×10 dopisujemy zero: 9 → 90!"}, {"display": "30 × 3 = [?]", "fullWord": "30 razy 3", "options": ["90", "80", "9"], "answer": "90", "hint": "×30 to ×3, a potem dopisz zero!", "reason": "30 × 3 = 90, bo 3×3=9, a potem dopisujemy zero!"}, {"display": "10 × 4 = [?]", "fullWord": "10 razy 4", "options": ["40", "4", "30"], "answer": "40", "hint": "×10 to dopisz zero na końcu!", "reason": "10 × 4 = 40, bo przy ×10 dopisujemy zero: 4 → 40!"}]}];
+    const MATH_TRICKS = [{"icon": "✌️", "title": "×2 – podwojenie", "rhyme": "Razy dwa to podwojenie – dodaj liczbę do tej samej!", "example": "7 × 2 = 7 + 7 = 14"}, {"icon": "🤲", "title": "×5 – połowa z dziesiątki", "rhyme": "Razy pięć? Sztuczka znana: weź dziesiątkę i podziel na dwa!", "example": "6 × 5 = (6 × 10) : 2 = 30"}, {"icon": "🖐️", "title": "×4 – dwa razy podwój", "rhyme": "Razy cztery – prosta sprawa: podwój, podwój i już zabawa!", "example": "7 × 4 = (7 × 2) × 2 = 28"}, {"icon": "🎯", "title": "×9 – dziesiątka bez jednej", "rhyme": "Razy dziewięć? Łatwa sprawa: dziesiątka minus liczba cała!", "example": "7 × 9 = 70 − 7 = 63"}, {"icon": "🔟", "title": "×10, ×20, ×30 – dopisz zero", "rhyme": "Przez dziesiątkę mnożysz śmiało – dopisz zero, to już cało!", "example": "7 × 10 = 70 &nbsp;•&nbsp; 4 × 20 = 80 &nbsp;•&nbsp; 3 × 30 = 90"}, {"icon": "🔁", "title": "Kolejność nie ma znaczenia", "rhyme": "Czy tak, czy tak – wynik ten sam, tabliczkę mnożenia znam!", "example": "3 × 8 = 8 × 3 = 24"}];
+    const MATH_BADGES = [{"id": "math_first", "icon": "🔢", "name": "Pierwszy Krok w Liczbach", "desc": "Ukończ pierwszy poziom tabliczki mnożenia."}, {"id": "math_double", "icon": "🐣", "name": "Mistrzyni Podwojeń", "desc": "Zdobądź 3 gwiazdki w poziomie mnożenia przez 2."}, {"id": "math_tens_master", "icon": "🚀", "name": "Łowczyni Zer", "desc": "Ukończ poziom mnożenia przez 10, 20 i 30."}, {"id": "math_master30", "icon": "🏆", "name": "Mistrzyni Tabliczki do 30", "desc": "Zdobądź gwiazdkę w każdym z pięciu poziomów do 30."}, {"id": "math_race_ace", "icon": "⚡", "name": "Błyskawica Tabliczki", "desc": "Zdobądź 10 punktów w Tabliczkowym Wyścigu."}, {"id": "math_speed_20", "icon": "🌟", "name": "Szybka jak Iskierka", "desc": "Zdobądź 20 punktów w Tabliczkowym Wyścigu."}];
+    const MATH_RACE_FACTS = [[2, 3], [2, 4], [2, 6], [2, 7], [2, 8], [2, 9], [2, 11], [2, 12], [2, 13], [2, 15], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8], [3, 9], [3, 10], [4, 3], [4, 5], [4, 6], [4, 7], [5, 3], [5, 4], [5, 5], [5, 6], [6, 3], [6, 4], [6, 5], [7, 3], [7, 4], [8, 3], [9, 3], [10, 2], [10, 3]];
 
     const SVG_MASCOT_FOX = `
 <g id="pet-fox-base">
@@ -2571,6 +3265,8 @@ const defaultState = {
   diamonds: 25,
   stars: 0,
   levelStars: {}, // e.g. "rz_z_1": 3
+  mathStars: {}, // e.g. "math_2": 3
+  mathRaceBest: 0, // rekord Tabliczkowego Wyścigu
   detectiveSolved: [],
   completedPairs: [],
   readRules: [],
@@ -2610,11 +3306,15 @@ function addDiamonds(amount) {
   audio.playSparkle();
 }
 
+function allBadges() {
+  return (typeof MATH_BADGES !== 'undefined') ? BADGES.concat(MATH_BADGES) : BADGES.slice();
+}
+
 function awardBadge(badgeId) {
   if (!state.unlockedBadges.includes(badgeId)) {
     state.unlockedBadges.push(badgeId);
     saveState();
-    const badge = BADGES.find(b => b.id === badgeId);
+    const badge = allBadges().find(b => b.id === badgeId);
     if (badge) {
       showToast(`🏆 Nowa Odznaka: ${badge.name}!`);
       audio.playFanfare();
@@ -2662,6 +3362,9 @@ function updateAllAvatars() {
 
   const quizMascot = document.getElementById('quiz-mascot-box');
   if (quizMascot) quizMascot.innerHTML = getAvatarSvg(null, null, null, null, 64);
+
+  const mathMascot = document.getElementById('math-mascot-box');
+  if (mathMascot) mathMascot.innerHTML = getAvatarSvg(null, null, null, null, 64);
 }
 
 // ==========================================
@@ -2705,6 +3408,11 @@ function switchScreen(screenId) {
   if (bubbleGameActive) {
     stopBubbleGame();
   }
+  if (typeof mathRaceRunning !== 'undefined' && mathRaceRunning && screenId !== 'math-race') {
+    stopMathRace();
+    const startBtn = document.getElementById('math-race-start');
+    if (startBtn) startBtn.style.display = 'inline-flex';
+  }
 
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
@@ -2727,6 +3435,10 @@ function switchScreen(screenId) {
   if (screenId === 'detective') renderDetectiveScreen();
   if (screenId === 'pairs') renderPairsScreen();
   if (screenId === 'bubbleCatch') initBubbleMenu();
+  if (screenId === 'math') renderMathMap();
+  if (screenId === 'math-table') renderMathTableScreen();
+  if (screenId === 'math-race') renderMathRaceScreen();
+  if (typeof syncSectionForScreen === 'function') syncSectionForScreen(screenId);
 }
 
 // ==========================================
@@ -3518,18 +4230,25 @@ function openTrophies() {
   const container = document.getElementById('badges-grid');
   if (!container) return;
 
-  container.innerHTML = BADGES.map(badge => {
-    const isUnlocked = state.unlockedBadges.includes(badge.id);
-    return `
-      <div class="badge-card ${isUnlocked ? 'unlocked' : ''}">
-        <div class="badge-icon-box">${badge.icon}</div>
-        <div class="badge-info">
-          <h5>${badge.name}</h5>
-          <p>${badge.desc}</p>
+  const renderBadgeGroup = (title, list) => {
+    const cards = list.map(badge => {
+      const isUnlocked = state.unlockedBadges.includes(badge.id);
+      return `
+        <div class="badge-card ${isUnlocked ? 'unlocked' : ''}">
+          <div class="badge-icon-box">${badge.icon}</div>
+          <div class="badge-info">
+            <h5>${badge.name}</h5>
+            <p>${badge.desc}</p>
+          </div>
         </div>
-      </div>
-    `;
-  }).join('');
+      `;
+    }).join('');
+    return `<div class="badge-group-title">${title}</div><div class="badges-grid">${cards}</div>`;
+  };
+
+  container.innerHTML =
+    renderBadgeGroup('📚 Dział ortografii', BADGES) +
+    renderBadgeGroup('🔢 Dział matematyki', (typeof MATH_BADGES !== 'undefined' ? MATH_BADGES : []));
 
   document.getElementById('modal-trophies').classList.add('active');
 }
@@ -3549,6 +4268,8 @@ function checkBadges() {
 
   const totalMaxStars = REALMS_DATA.length * 3 * 3;
   if (state.stars >= totalMaxStars) awardBadge('grand_wizard');
+
+  if (typeof checkMathBadges === 'function') checkMathBadges();
 }
 
 // ==========================================
@@ -3568,6 +4289,7 @@ function resetProgress() {
     closeAllModals();
     updateTopBar();
     renderRealmsMap();
+    if (typeof renderMathMap === 'function') renderMathMap();
     showToast("Wszystkie postępy zostały zresetowane! Nowa przygoda czeka!");
   }
 }
@@ -3692,6 +4414,489 @@ window.addEventListener('DOMContentLoaded', () => {
   checkBadges();
 });
 
+
+// ==========================================
+// 18. MATEMATYKA – WSPÓLNE
+// ==========================================
+const MATH_SCREENS = ['math', 'math-quiz', 'math-table', 'math-race', 'math-victory'];
+
+function mathStarsTotal() {
+  return MATH_LEVELS.reduce((sum, lvl) => sum + (state.mathStars[lvl.id] || 0), 0);
+}
+
+function mathStarsMax() {
+  return MATH_LEVELS.length * 3;
+}
+
+function switchSection(sectionName) {
+  syncSectionForScreen(sectionName === 'math' ? 'math' : 'realms');
+  switchScreen(sectionName === 'math' ? 'math' : 'realms');
+}
+
+function syncSectionForScreen(screenId) {
+  const section = MATH_SCREENS.includes(screenId) ? 'math' : 'ortografia';
+  document.body.dataset.section = section;
+  document.querySelectorAll('.section-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.section === section);
+  });
+  document.querySelectorAll('.nav-tabs').forEach(nav => {
+    const navSection = nav.dataset.section || 'ortografia';
+    nav.classList.toggle('is-hidden', navSection !== section);
+  });
+}
+
+// ==========================================
+// 19. MAPA POZIOMÓW MATEMATYCZNYCH
+// ==========================================
+let mathActiveLevel = null;
+let mathQuestions = [];
+let mathQIndex = 0;
+let mathCorrectCount = 0;
+
+function renderMathMap() {
+  const grid = document.getElementById('math-levels-grid');
+  if (!grid) return;
+
+  grid.innerHTML = MATH_LEVELS.map(lvl => {
+    const starCount = state.mathStars[lvl.id] || 0;
+    const starsHtml = [1, 2, 3].map(i =>
+      `<span class="${i <= starCount ? 'star-filled' : 'star-empty'}">★</span>`
+    ).join('');
+    const isBonus = lvl.id === 'math_tens';
+
+    return `
+      <div class="math-level-card ${isBonus ? 'math-level-bonus' : ''}" style="--realm-bg: ${lvl.bg_gradient};">
+        <div class="math-level-top">
+          <div class="math-level-icon">${lvl.badge}</div>
+          <div class="level-stars-display">${starsHtml}</div>
+        </div>
+        <div class="math-level-number">${isBonus ? 'Bonus' : 'Poziom ' + lvl.level}</div>
+        <h4>${lvl.name}</h4>
+        <p>${lvl.description}</p>
+        <button class="btn-play-level math-btn" style="background: ${lvl.bg_gradient}" onclick="startMathLevel(${lvl.level})">
+          Ćwicz tabliczkę ➔
+        </button>
+      </div>
+    `;
+  }).join('');
+
+  const summary = document.getElementById('math-summary-line');
+  if (summary) {
+    summary.textContent = `⭐ ${mathStarsTotal()} / ${mathStarsMax()} gwiazdek w tabliczce`;
+  }
+
+  const bestLine = document.getElementById('math-best-line');
+  if (bestLine) {
+    bestLine.textContent = state.mathRaceBest > 0
+      ? `⚡ Rekord wyścigu: ${state.mathRaceBest} pkt`
+      : '⚡ Wyścig jeszcze przed Tobą!';
+  }
+}
+
+// ==========================================
+// 20. QUIZ MATEMATYCZNY
+// ==========================================
+function startMathLevel(levelNum) {
+  mathActiveLevel = MATH_LEVELS.find(l => l.level === levelNum);
+  if (!mathActiveLevel) return;
+
+  mathQuestions = [...mathActiveLevel.questions];
+  mathQIndex = 0;
+  mathCorrectCount = 0;
+
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-math-quiz').classList.add('active');
+  syncSectionForScreen('math-quiz');
+
+  renderMathQuestion();
+}
+
+function renderMathQuestion() {
+  const q = mathQuestions[mathQIndex];
+  if (!q) {
+    finishMathLevel();
+    return;
+  }
+
+  const total = mathQuestions.length;
+  document.getElementById('math-progress-fill').style.width = `${(mathQIndex / total) * 100}%`;
+  document.getElementById('math-counter').textContent = `Zadanie ${mathQIndex + 1} z ${total}`;
+  document.getElementById('math-mascot-dialogue').textContent = q.hint || 'Policz uważnie!';
+  document.getElementById('math-level-title').textContent = mathActiveLevel.name;
+
+  const parts = q.display.split('[?]');
+  document.getElementById('math-display-box').innerHTML =
+    `${parts[0]}<span class="math-answer-slot" id="math-answer-slot">?</span>${parts[1] || ''}`;
+
+  const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+  document.getElementById('math-choices-grid').innerHTML = shuffled.map(opt => `
+    <button class="choice-btn math-choice" onclick="handleMathChoice('${opt}')">${opt}</button>
+  `).join('');
+
+  const fb = document.getElementById('math-feedback-box');
+  fb.className = 'quiz-feedback-box';
+  fb.style.display = 'none';
+  document.getElementById('btn-math-next').style.display = 'none';
+
+  const speakBtn = document.getElementById('btn-math-listen');
+  if (speakBtn) speakBtn.onclick = () => speakPolish(q.fullWord);
+
+  updateAllAvatars();
+}
+
+function handleMathChoice(chosen) {
+  const q = mathQuestions[mathQIndex];
+  if (!q) return;
+
+  const slot = document.getElementById('math-answer-slot');
+  const feedbackBox = document.getElementById('math-feedback-box');
+  const nextBtn = document.getElementById('btn-math-next');
+
+  document.querySelectorAll('.math-choice').forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent.trim() === q.answer) btn.classList.add('correct');
+    else if (btn.textContent.trim() === chosen) btn.classList.add('incorrect');
+  });
+
+  const isCorrect = (chosen === q.answer);
+
+  if (isCorrect) {
+    audio.playCorrect();
+    mathCorrectCount++;
+    if (slot) {
+      slot.textContent = chosen;
+      slot.classList.add('filled');
+    }
+    feedbackBox.className = 'quiz-feedback-box correct';
+    feedbackBox.innerHTML = `
+      <div class="feedback-title">🎉 Brawo! Dobry wynik!</div>
+      <div class="feedback-reason">${q.reason}</div>
+    `;
+    addDiamonds(2);
+  } else {
+    audio.playWrong();
+    if (slot) {
+      slot.textContent = q.answer;
+      slot.classList.add('filled');
+    }
+    feedbackBox.className = 'quiz-feedback-box incorrect';
+    feedbackBox.innerHTML = `
+      <div class="feedback-title">🌟 Prawie! Popatrz na sztuczkę:</div>
+      <div class="feedback-reason">${q.reason}</div>
+    `;
+  }
+
+  feedbackBox.style.display = 'block';
+  nextBtn.style.display = 'flex';
+}
+
+function nextMathQuestion() {
+  mathQIndex++;
+  audio.playClick();
+  renderMathQuestion();
+}
+
+function finishMathLevel() {
+  audio.playFanfare();
+  triggerConfetti();
+
+  const total = mathQuestions.length;
+  let stars = 1;
+  if (mathCorrectCount >= total * 0.8) stars = 3;
+  else if (mathCorrectCount >= total * 0.5) stars = 2;
+
+  const key = mathActiveLevel.id;
+  const prevStars = state.mathStars[key] || 0;
+  if (stars > prevStars) {
+    state.mathStars[key] = stars;
+  }
+  addDiamonds(stars * 4);
+  saveState();
+  checkBadges();
+  renderMathMap();
+
+  document.getElementById('screen-math-quiz').classList.remove('active');
+  const vic = document.getElementById('screen-math-victory');
+  vic.classList.add('active');
+  syncSectionForScreen('math-victory');
+
+  document.getElementById('math-vic-stars').innerHTML = [1, 2, 3].map(i =>
+    `<span class="${i <= stars ? 'star-filled' : 'star-empty'}">★</span>`
+  ).join('');
+  document.getElementById('math-vic-title').textContent =
+    stars === 3 ? 'Mistrzyni tabliczki!' : 'Poziom ukończony!';
+  document.getElementById('math-vic-desc').textContent =
+    `Poprawnie: ${mathCorrectCount} z ${total} działań. Zdobyłaś ${stars} z 3 gwiazdek!`;
+}
+
+function exitMathVictory() {
+  document.getElementById('screen-math-victory').classList.remove('active');
+  switchScreen('math');
+}
+
+// ==========================================
+// 21. TABLICA MNOŻENIA I SZTUCZKI
+// ==========================================
+function renderMathTableScreen() {
+  renderMathTricks();
+  renderMathGrid();
+}
+
+function renderMathTricks() {
+  const wrap = document.getElementById('math-tricks-list');
+  if (!wrap || wrap.dataset.ready === '1') return;
+
+  wrap.innerHTML = MATH_TRICKS.map(t => `
+    <div class="math-trick-card">
+      <div class="math-trick-icon">${t.icon}</div>
+      <div class="math-trick-body">
+        <h4>${t.title}</h4>
+        <div class="math-trick-rhyme">${t.rhyme}</div>
+        <div class="math-trick-example">${t.example}</div>
+      </div>
+    </div>
+  `).join('');
+  wrap.dataset.ready = '1';
+}
+
+function renderMathGrid() {
+  const wrap = document.getElementById('math-grid');
+  if (!wrap) return;
+
+  const cols = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  let html = '<table class="math-table"><thead><tr><th class="math-table-corner">×</th>';
+  cols.forEach(c => { html += `<th>${c}</th>`; });
+  html += '</tr></thead><tbody>';
+
+  cols.forEach(r => {
+    html += `<tr><th>${r}</th>`;
+    cols.forEach(c => {
+      const product = r * c;
+      const inRange = product <= 30;
+      html += inRange
+        ? `<td data-a="${r}" data-b="${c}" class="math-cell in-range" onclick="showMathCell(${r}, ${c}, this)">${product}</td>`
+        : `<td data-a="${r}" data-b="${c}" class="math-cell out-range" onclick="showMathCell(${r}, ${c}, this)">${product}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+function mathTrickFor(a, b) {
+  const big = Math.max(a, b);
+  const map = {
+    2: 'To podwojenie – dodaj liczbę do siebie.',
+    3: 'Policz ×2, a potem dodaj jeszcze jedną taką liczbę.',
+    4: 'Podwój dwa razy: ×2 i jeszcze raz ×2.',
+    5: 'Weź ×10 i podziel na pół.',
+    6: 'Policz ×5 i dodaj jeszcze jedną taką liczbę.',
+    7: 'Policz ×5 i dodaj ×2.',
+    8: 'Policz ×4, a potem jeszcze raz ×2.',
+    9: 'Weź ×10 i odejmij jedną taką liczbę.'
+  };
+  if (big === 10) return 'Przy ×10 dopisz zero na końcu.';
+  if (big === 20) return 'Policz ×2 i dopisz zero.';
+  if (big === 30) return 'Policz ×3 i dopisz zero.';
+  return map[big] || 'Policz grupami.';
+}
+
+function showMathCell(a, b, cellEl) {
+  const product = a * b;
+  const panel = document.getElementById('math-cell-panel');
+  audio.playTone(700, 'sine', 0.1, 0.07);
+
+  document.querySelectorAll('.math-cell.selected').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.math-cell.row-hl').forEach(c => c.classList.remove('row-hl'));
+  document.querySelectorAll('.math-cell.col-hl').forEach(c => c.classList.remove('col-hl'));
+
+  if (cellEl) cellEl.classList.add('selected');
+  document.querySelectorAll(`.math-cell[data-a="${a}"]`).forEach(c => c.classList.add('row-hl'));
+  document.querySelectorAll(`.math-cell[data-b="${b}"]`).forEach(c => c.classList.add('col-hl'));
+
+  if (panel) {
+    panel.innerHTML = `
+      <div class="math-cell-equation">${a} × ${b} = ${product}</div>
+      <div class="math-cell-tip">${mathTrickFor(a, b)}</div>
+      ${product > 30 ? '<div class="math-cell-out">To działanie jest już poza zakresem do 30 – spotkasz je w poziomie bonusowym.</div>' : ''}
+    `;
+  }
+  speakPolish(`${a} razy ${b} równa się ${product}`);
+}
+
+// ==========================================
+// 22. TABLICZKOWY WYŚCIG (GRA NA CZAS)
+// ==========================================
+let mathRaceRunning = false;
+let mathRaceScore = 0;
+let mathRaceCombo = 1;
+let mathRaceBestCombo = 1;
+let mathRaceTicker = null;
+let mathRaceRemaining = 45;
+let mathRaceCurrent = null;
+
+const MATH_RACE_TIME = 45;
+
+function randomRaceFact() {
+  const pair = MATH_RACE_FACTS[Math.floor(Math.random() * MATH_RACE_FACTS.length)];
+  const a = pair[0];
+  const b = pair[1];
+  const correct = a * b;
+  const options = [String(correct)];
+  let guard = 0;
+  while (options.length < 3 && guard < 40) {
+    guard++;
+    const delta = [-10, -5, -2, -1, 1, 2, 5, 10, a, -a, b, -b][Math.floor(Math.random() * 12)];
+    const candidate = correct + delta;
+    if (candidate > 0 && !options.includes(String(candidate))) options.push(String(candidate));
+  }
+  return { a, b, correct, options };
+}
+
+function renderMathRaceScreen() {
+  const best = document.getElementById('math-race-best');
+  if (best) best.textContent = state.mathRaceBest > 0 ? `Rekord: ${state.mathRaceBest} pkt` : 'Rekord: –';
+  if (!mathRaceRunning) {
+    const qBox = document.getElementById('math-race-question');
+    if (qBox) qBox.textContent = 'Gotowa? Naciśnij Start!';
+    const grid = document.getElementById('math-race-choices');
+    if (grid) grid.innerHTML = '';
+  }
+}
+
+function startMathRace() {
+  mathRaceRunning = true;
+  mathRaceScore = 0;
+  mathRaceCombo = 1;
+  mathRaceBestCombo = 1;
+  mathRaceRemaining = MATH_RACE_TIME;
+
+  document.getElementById('math-race-start').style.display = 'none';
+  document.getElementById('math-race-result').style.display = 'none';
+  document.getElementById('math-race-score').textContent = '0';
+  document.getElementById('math-race-combo').textContent = 'x1';
+  document.getElementById('math-race-time').textContent = `${MATH_RACE_TIME}s`;
+  document.getElementById('math-race-timer-fill').style.width = '100%';
+
+  nextMathRaceQuestion();
+  audio.playSparkle();
+
+  clearInterval(mathRaceTicker);
+  mathRaceTicker = setInterval(() => {
+    mathRaceRemaining--;
+    const timeEl = document.getElementById('math-race-time');
+    const fill = document.getElementById('math-race-timer-fill');
+    if (timeEl) timeEl.textContent = `${Math.max(0, mathRaceRemaining)}s`;
+    if (fill) fill.style.width = `${Math.max(0, (mathRaceRemaining / MATH_RACE_TIME) * 100)}%`;
+    if (mathRaceRemaining <= 0) endMathRace();
+  }, 1000);
+}
+
+function nextMathRaceQuestion() {
+  mathRaceCurrent = randomRaceFact();
+  const q = mathRaceCurrent;
+  document.getElementById('math-race-question').innerHTML =
+    `${q.a} × ${q.b} = <span class="math-race-qmark">?</span>`;
+
+  const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+  document.getElementById('math-race-choices').innerHTML = shuffled.map(opt => `
+    <button class="choice-btn math-choice" onclick="answerMathRace('${opt}', this)">${opt}</button>
+  `).join('');
+}
+
+function answerMathRace(chosen, btnEl) {
+  if (!mathRaceRunning || !mathRaceCurrent) return;
+
+  const correct = String(mathRaceCurrent.correct);
+  const buttons = document.querySelectorAll('#math-race-choices .choice-btn');
+  buttons.forEach(b => { b.disabled = true; });
+
+  if (chosen === correct) {
+    audio.playCorrect();
+    mathRaceScore++;
+    mathRaceCombo = Math.min(mathRaceCombo + 1, 5);
+    mathRaceBestCombo = Math.max(mathRaceBestCombo, mathRaceCombo);
+    document.getElementById('math-race-score').textContent = mathRaceScore;
+    document.getElementById('math-race-combo').textContent = `x${mathRaceCombo}`;
+    if (btnEl) btnEl.classList.add('correct');
+    setTimeout(() => {
+      if (mathRaceRunning) nextMathRaceQuestion();
+    }, 220);
+  } else {
+    audio.playWrong();
+    mathRaceCombo = 1;
+    document.getElementById('math-race-combo').textContent = 'x1';
+    if (btnEl) btnEl.classList.add('incorrect');
+    buttons.forEach(b => {
+      if (b.textContent.trim() === correct) b.classList.add('correct');
+    });
+    setTimeout(() => {
+      if (mathRaceRunning) nextMathRaceQuestion();
+    }, 900);
+  }
+}
+
+function stopMathRace() {
+  mathRaceRunning = false;
+  clearInterval(mathRaceTicker);
+}
+
+function endMathRace() {
+  mathRaceRunning = false;
+  clearInterval(mathRaceTicker);
+
+  if (mathRaceScore > (state.mathRaceBest || 0)) {
+    state.mathRaceBest = mathRaceScore;
+    saveState();
+  }
+  addDiamonds(Math.max(1, mathRaceScore));
+  checkBadges();
+
+  const result = document.getElementById('math-race-result');
+  const start = document.getElementById('math-race-start');
+  if (start) start.style.display = 'inline-flex';
+  if (result) {
+    result.style.display = 'block';
+    const medal = mathRaceScore >= 20 ? '🏆' : mathRaceScore >= 10 ? '🌟' : '💪';
+    result.innerHTML = `
+      <div class="math-race-result-title">${medal} Koniec czasu!</div>
+      <div class="math-race-result-score">${mathRaceScore} punktów</div>
+      <div class="math-race-result-detail">Najlepsza seria: x${mathRaceBestCombo} • Rekord: ${state.mathRaceBest} pkt</div>
+      <div class="math-race-result-hint">${mathRaceScore >= 20 ? 'Niesamowite! Tabliczka nie ma przed Tobą tajemnic!' : mathRaceScore >= 10 ? 'Świetnie! Spróbuj jeszcze raz i pobij rekord!' : 'Dobry początek! Poćwicz sztuczki i wróć!'}</div>
+    `;
+  }
+  audio.playFanfare();
+  renderMathMap();
+}
+
+// ==========================================
+// 23. ODZNAKI MATEMATYCZNE
+// ==========================================
+function checkMathBadges() {
+  const core = ['math_2', 'math_3', 'math_45', 'math_6789', 'math_10_mix'];
+  const anyStar = MATH_LEVELS.some(l => (state.mathStars[l.id] || 0) >= 1);
+  if (anyStar) awardBadge('math_first');
+  if ((state.mathStars['math_2'] || 0) >= 3) awardBadge('math_double');
+  if ((state.mathStars['math_tens'] || 0) >= 1) awardBadge('math_tens_master');
+  if (core.every(id => (state.mathStars[id] || 0) >= 1)) awardBadge('math_master30');
+  if ((state.mathRaceBest || 0) >= 10) awardBadge('math_race_ace');
+  if ((state.mathRaceBest || 0) >= 20) awardBadge('math_speed_20');
+}
+
+// Inicjalizacja przycisków działów i podglądu tabliczki
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.section-btn').forEach(btn => {
+    btn.onclick = () => switchSection(btn.dataset.section);
+  });
+  document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+    if (btn.dataset.screen) {
+      btn.onclick = () => switchScreen(btn.dataset.screen);
+    }
+  });
+  renderMathMap();
+  syncSectionForScreen('realms');
+});
+
   </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5d050b63c949e2a',t:'MTc5NTEwMjg0Ng=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5d050b63c949e2a',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5f9a893992be75e',t:'MTc5NTUzNjM2MQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5f9a893992be75e',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
